@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Gameplay: CCNode {
+class Gameplay: CCNode, CCPhysicsCollisionDelegate {
     weak var gamePhysicsNode : CCPhysicsNode!
     weak var catapultArm : CCNode!
     weak var levelNode : CCNode!
@@ -16,17 +16,31 @@ class Gameplay: CCNode {
     weak var pullbackNode : CCNode!
     weak var mouseJointNode: CCNode!
     var mouseJoint: CCPhysicsJoint?
+    var currentPenguin: Penguin?
+    var penguinCatapultJoint: CCPhysicsJoint?
     
+    func ccPhysicsCollisionPostSolve(pair: CCPhysicsCollisionPair!, seal: Seal!, wildcard: CCNode!) {
+        let energy = pair.totalKineticEnergy
+        
+        // if energy is large enough, remove the seal
+        if energy > 5000 {
+            gamePhysicsNode.space.addPostStepBlock({ () -> Void in
+                self.sealRemoved(seal)
+                }, key: seal)
+        }
+    }
+    func sealRemoved(seal: Seal) {
+        seal.removeFromParent()
+    }
     // called when CCB file has completed loading
     func didLoadFromCCB() {
         userInteractionEnabled = true
         let level = CCBReader.load("Levels/Level1")
         levelNode.addChild(level)
-        // visualize physics bodies & joints
-        gamePhysicsNode.debugDraw = true
         // nothing shall collide with our invisible nodes
         pullbackNode.physicsBody.collisionMask = []
         mouseJointNode.physicsBody.collisionMask = []
+        gamePhysicsNode.collisionDelegate = self
     }
     
     // called on every touch in this scene
@@ -39,7 +53,22 @@ class Gameplay: CCNode {
             mouseJointNode.position = touchLocation
             
             // setup a spring joint between the mouseJointNode and the catapultArm
-            mouseJoint = CCPhysicsJoint.connectedSpringJointWithBodyA(mouseJointNode.physicsBody, bodyB: catapultArm.physicsBody, anchorA: CGPointZero, anchorB: CGPoint(x: 34, y: 138), restLength: 0, stiffness: 3000, damping: 150)
+            mouseJoint = CCPhysicsJoint.connectedSpringJointWithBodyA(mouseJointNode.physicsBody, bodyB: catapultArm.physicsBody, anchorA: CGPointZero, anchorB: CGPoint(x: 34, y: 138), restLength: 0, stiffness: 5000, damping: 150)
+            // create a penguin from the ccb-file
+            currentPenguin = CCBReader.load("Penguin") as! Penguin?
+            if let currentPenguin = currentPenguin {
+                // initially position it on the scoop. 34,138 is the position in the node space of the catapultArm
+                let penguinPosition = catapultArm.convertToWorldSpace(CGPoint(x: 34, y: 138))
+                // transform the world position to the node space to which the penguin will be added (gamePhysicsNode)
+                currentPenguin.position = gamePhysicsNode.convertToNodeSpace(penguinPosition)
+                // add it to the physics world
+                gamePhysicsNode.addChild(currentPenguin)
+                // we don't want the penguin to rotate in the scoop
+                currentPenguin.physicsBody.allowsRotation = false
+                
+                // create a joint to keep the penguin fixed to the scoop until the catapult is released
+                penguinCatapultJoint = CCPhysicsJoint.connectedPivotJointWithBodyA(currentPenguin.physicsBody, bodyB: catapultArm.physicsBody, anchorA: currentPenguin.anchorPointInPoints)
+            }
         }
     }
     override func touchMoved(touch: CCTouch!, withEvent event: CCTouchEvent!) {
@@ -52,6 +81,16 @@ class Gameplay: CCNode {
             // releases the joint and lets the catapult snap back
             joint.invalidate()
             mouseJoint = nil
+            // releases the joint and lets the penguin fly
+            penguinCatapultJoint?.invalidate()
+            penguinCatapultJoint = nil
+            
+            // after snapping rotation is fine
+            currentPenguin?.physicsBody.allowsRotation = true
+            
+            // follow the flying penguin
+            let actionFollow = CCActionFollow(target: currentPenguin, worldBoundary: boundingBox())
+            contentNode.runAction(actionFollow)
         }
     }
     override func touchEnded(touch: CCTouch!, withEvent event: CCTouchEvent!) {
