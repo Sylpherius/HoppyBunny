@@ -94,6 +94,7 @@
 		BC5399DB1A44DCC90063F482 /* JavaFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D61A44DCC90063F482 /* JavaFoundation.framework */; };
 		BC5399DC1A44DCC90063F482 /* JavaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC5399D71A44DCC90063F482 /* JavaKit.framework */; };
 		E782AA271B3C647D00147170 /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = E782AA261B3C647D00147170 /* Gameplay.swift */; };
+		E782AA2D1B3C908500147170 /* WaitingPenguin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E782AA2C1B3C908500147170 /* WaitingPenguin.swift */; };
 		E7F2ED931B3B4FD3005A8346 /* Penguin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F2ED921B3B4FD3005A8346 /* Penguin.swift */; };
 		E7F2ED991B3B6B2D005A8346 /* Seal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F2ED981B3B6B2D005A8346 /* Seal.swift */; };
 /* End PBXBuildFile section */
@@ -215,6 +216,7 @@
 		BC5399D71A44DCC90063F482 /* JavaKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaKit.framework; path = "../../../../Library/Application Support/Developer/Shared/Xcode/Platforms/Android.platform/Developer/SDKs/SBAndroid.sdk/System/Library/Frameworks/JavaKit.framework"; sourceTree = "<group>"; };
 		D352B48019EC608A00829775 /* MetalShaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MetalShaders; path = Source/MetalShaders; sourceTree = "<group>"; };
 		E782AA261B3C647D00147170 /* Gameplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gameplay.swift; sourceTree = "<group>"; };
+		E782AA2C1B3C908500147170 /* WaitingPenguin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitingPenguin.swift; sourceTree = "<group>"; };
 		E7F2ED921B3B4FD3005A8346 /* Penguin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Penguin.swift; sourceTree = "<group>"; };
 		E7F2ED981B3B6B2D005A8346 /* Seal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -443,6 +445,7 @@
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				E782AA261B3C647D00147170 /* Gameplay.swift */,
+				E782AA2C1B3C908500147170 /* WaitingPenguin.swift */,
 				E7F2ED921B3B4FD3005A8346 /* Penguin.swift */,
 				E7F2ED981B3B6B2D005A8346 /* Seal.swift */,
 				D352B48019EC608A00829775 /* MetalShaders */,
@@ -824,6 +827,7 @@
 				B73789871807631A0076A88C /* main.m in Sources */,
 				E782AA271B3C647D00147170 /* Gameplay.swift in Sources */,
 				7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */,
+				E782AA2D1B3C908500147170 /* WaitingPenguin.swift in Sources */,
 				E7F2ED931B3B4FD3005A8346 /* Penguin.swift in Sources */,
 				E7F2ED991B3B6B2D005A8346 /* Seal.swift in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
