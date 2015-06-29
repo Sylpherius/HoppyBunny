@@ -18,4 +18,7 @@ class Character: CCSprite {
         side = .Right
         scaleX = -1
     }
+    func tap() {
+        self.animationManager.runAnimationsForSequenceNamed("Tap")
+    }
 }
